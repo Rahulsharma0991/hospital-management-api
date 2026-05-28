@@ -22,7 +22,10 @@ class Register(APIView):
     def post(self,request):
         username=request.data.get('username')
         password=request.data.get('password')
-
+        if not username or not password:
+            return Response(
+                {"error": "username and password required"}
+            )
         if User.objects.filter(username=username).exists():
             return Response({"Message":'Username already taken...'})
         user=User.objects.create_user(username=username,password=password)
